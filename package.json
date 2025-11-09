@@ -1,7 +1,7 @@
 {
   "name": "caffeinated",
   "displayName": "Caffeinated",
-  "description": "Semantic code search powered by local embeddings and vector similarity",
+  "description": "Semantic, keyword, and fuzzy code search powered by local embeddings and vector similarity",
   "version": "0.1.0",
   "publisher": "agiangrant",
   "engines": {
@@ -14,6 +14,8 @@
   "keywords": [
     "search",
     "semantic",
+    "keyword",
+    "fuzzy",
     "embeddings",
     "vector",
     "similarity",

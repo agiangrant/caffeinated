@@ -2,7 +2,7 @@
   "name": "caffeinated",
   "displayName": "Caffeinated",
   "description": "Semantic, keyword, and fuzzy code search powered by local embeddings and vector similarity",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "agiangrant",
   "repository": "https://github.com/agiangrant/caffeinated",
   "homepage": "https://github.com/agiangrant/caffeinated",

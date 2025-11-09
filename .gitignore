@@ -1,0 +1,14 @@
+node_modules/
+out/
+dist/
+*.vsix
+.vscode-test/
+*.log
+.DS_Store
+.env
+.env.local
+coverage/
+.nyc_output/
+
+# pnpm
+pnpm-lock.yaml

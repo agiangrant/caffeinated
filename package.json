@@ -1,0 +1,266 @@
+{
+  "name": "caffeinated",
+  "displayName": "Caffeinated",
+  "description": "Semantic code search powered by local embeddings and vector similarity",
+  "version": "0.1.0",
+  "publisher": "agiangrant",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other",
+    "Machine Learning"
+  ],
+  "keywords": [
+    "search",
+    "semantic",
+    "embeddings",
+    "vector",
+    "similarity",
+    "ai",
+    "code search"
+  ],
+  "activationEvents": [
+    "onCommand:caffeinated.search",
+    "onCommand:caffeinated.quickSearch",
+    "onCommand:caffeinated.indexWorkspace",
+    "onCommand:caffeinated.clearIndex",
+    "onCommand:caffeinated.reindexWorkspace",
+    "onCommand:caffeinated.showStatus",
+    "onCommand:caffeinated.showLogs"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "caffeinated.search",
+        "title": "Caffeinated: Search Code Semantically"
+      },
+      {
+        "command": "caffeinated.quickSearch",
+        "title": "Caffeinated: Quick Search"
+      },
+      {
+        "command": "caffeinated.indexWorkspace",
+        "title": "Caffeinated: Index Workspace"
+      },
+      {
+        "command": "caffeinated.clearIndex",
+        "title": "Caffeinated: Clear Index"
+      },
+      {
+        "command": "caffeinated.reindexWorkspace",
+        "title": "Caffeinated: Reindex Workspace (Clear & Rebuild)"
+      },
+      {
+        "command": "caffeinated.showStatus",
+        "title": "Caffeinated: Show Index Status"
+      },
+      {
+        "command": "caffeinated.showLogs",
+        "title": "Caffeinated: Show Debug Logs"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "caffeinated.quickSearch",
+        "key": "cmd+k cmd+p",
+        "mac": "cmd+k cmd+p",
+        "win": "ctrl+k ctrl+p",
+        "linux": "ctrl+k ctrl+p"
+      }
+    ],
+    "configuration": {
+      "title": "Caffeinated",
+      "properties": {
+        "caffeinated.embeddingProvider": {
+          "type": "string",
+          "enum": [
+            "ollama",
+            "custom"
+          ],
+          "default": "ollama",
+          "description": "Embedding provider to use"
+        },
+        "caffeinated.ollamaEndpoint": {
+          "type": "string",
+          "default": "http://localhost:11434",
+          "description": "Ollama API endpoint"
+        },
+        "caffeinated.ollamaModel": {
+          "type": "string",
+          "default": "nomic-embed-text",
+          "description": "Ollama embedding model to use"
+        },
+        "caffeinated.ollamaKeepAlive": {
+          "type": "string",
+          "default": "30m",
+          "description": "How long to keep the embedding model loaded in Ollama (e.g., '5m', '30m', '1h', '-1' for indefinite). Longer durations improve performance."
+        },
+        "caffeinated.embeddingBatchSize": {
+          "type": "number",
+          "default": 10,
+          "minimum": 1,
+          "maximum": 50,
+          "description": "Number of embeddings to generate concurrently during indexing. Higher values are faster but use more memory."
+        },
+        "caffeinated.customEndpoint": {
+          "type": "string",
+          "default": "",
+          "description": "Custom embedding API endpoint (for TabbyML, etc.)"
+        },
+        "caffeinated.customApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "API key for custom endpoint (if required)"
+        },
+        "caffeinated.indexOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically re-index files when saved"
+        },
+        "caffeinated.maxFileSize": {
+          "type": "number",
+          "default": 1048576,
+          "description": "Maximum file size to index (in bytes, default 1MB)"
+        },
+        "caffeinated.excludePatterns": {
+          "type": "array",
+          "default": [
+            "**/node_modules/**",
+            "**/dist/**",
+            "**/out/**",
+            "**/.git/**",
+            "**/build/**",
+            "**/*.min.js"
+          ],
+          "description": "Glob patterns to exclude from indexing"
+        },
+        "caffeinated.chunkSize": {
+          "type": "number",
+          "default": 500,
+          "description": "Number of lines per code chunk for embedding"
+        },
+        "caffeinated.chunkOverlap": {
+          "type": "number",
+          "default": 50,
+          "description": "Number of overlapping lines between chunks"
+        },
+        "caffeinated.enableContextGeneration": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable LLM-powered context generation for richer embeddings (requires additional model)"
+        },
+        "caffeinated.contextGenerationProvider": {
+          "type": "string",
+          "enum": [
+            "ollama",
+            "custom"
+          ],
+          "default": "ollama",
+          "description": "Context generation provider to use"
+        },
+        "caffeinated.contextModelEndpoint": {
+          "type": "string",
+          "default": "http://localhost:11434",
+          "description": "Ollama endpoint for context generation LLM"
+        },
+        "caffeinated.contextModel": {
+          "type": "string",
+          "default": "qwen2.5-coder:1.5b",
+          "description": "Ollama model for context generation (e.g., qwen2.5-coder:1.5b, codellama:7b)"
+        },
+        "caffeinated.contextModelKeepAlive": {
+          "type": "string",
+          "default": "1m",
+          "description": "How long to keep the context generation model loaded in Ollama (e.g., '1m', '5m', '10m', '-1' for indefinite). Used during indexing."
+        },
+        "caffeinated.customContextEndpoint": {
+          "type": "string",
+          "default": "",
+          "description": "Custom LLM API endpoint for context generation (for OpenAI-compatible APIs)"
+        },
+        "caffeinated.customContextApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "API key for custom context generation endpoint (if required)"
+        },
+        "caffeinated.customContextModel": {
+          "type": "string",
+          "default": "gpt-3.5-turbo",
+          "description": "Model name for custom context generation provider"
+        },
+        "caffeinated.contextGenerationBatchSize": {
+          "type": "number",
+          "default": 10,
+          "minimum": 1,
+          "maximum": 20,
+          "description": "Number of chunks to process concurrently for context generation. Higher values are faster but use more memory."
+        },
+        "caffeinated.contextGenerationPrompt": {
+          "type": "string",
+          "default": "",
+          "description": "Custom prompt template for context generation. Leave empty to use default. Use {code}, {language}, {fileName} as placeholders.",
+          "editPresentation": "multilineText"
+        },
+        "caffeinated.enableDebugLogging": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable detailed debug logging to the Output panel (Caffeinated channel)"
+        },
+        "caffeinated.searchMode": {
+          "type": "string",
+          "enum": [
+            "hybrid",
+            "semantic",
+            "keyword"
+          ],
+          "default": "hybrid",
+          "enumDescriptions": [
+            "Combines semantic and keyword search using Reciprocal Rank Fusion (best results)",
+            "Pure vector similarity search (best for conceptual queries)",
+            "Pure keyword/lexical search (best for exact identifiers)"
+          ],
+          "description": "Search mode to use"
+        },
+        "caffeinated.rrf.k": {
+          "type": "number",
+          "default": 60,
+          "minimum": 1,
+          "maximum": 100,
+          "description": "RRF constant for hybrid search ranking (typically 60). Lower values give more weight to top-ranked results."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "pnpm run compile && pnpm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package",
+    "clean": "rm -rf out",
+    "rebuild": "electron-rebuild -f -w better-sqlite3"
+  },
+  "devDependencies": {
+    "@electron/rebuild": "^4.0.1",
+    "@types/better-sqlite3": "^7.6.11",
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.x",
+    "@types/vscode": "^1.95.0",
+    "@vscode/test-electron": "^2.4.1",
+    "@vscode/vsce": "^3.2.1",
+    "eslint": "^9.15.0",
+    "glob": "^11.0.0",
+    "mocha": "^10.8.2",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "axios": "^1.7.7",
+    "better-sqlite3": "^11.7.0",
+    "minimatch": "^10.0.1"
+  }
+}

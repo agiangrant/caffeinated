@@ -197,13 +197,6 @@ export class EmbeddingService {
     return this.provider.generateEmbedding(text);
   }
 
-  getDimensions(): number {
-    if (!this.provider) {
-      throw new Error('Embedding provider not initialized');
-    }
-    return this.provider.getDimensions();
-  }
-
   async testConnection(): Promise<boolean> {
     try {
       await this.generateEmbedding('test');

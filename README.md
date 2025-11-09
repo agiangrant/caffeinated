@@ -503,6 +503,5 @@ MIT
 Built with:
 
 - [Ollama](https://ollama.ai) - Local LLM runtime
-- [better-sqlite3](https://github.com/WiseLibs/better-sqlite3) - SQLite bindings
 - [nomic-embed-text](https://ollama.ai/library/nomic-embed-text) - Default embedding model
 - [qwen2.5-coder:1.5b](https://ollama.com/library/qwen2.5-coder:1.5b) - Default context generation model

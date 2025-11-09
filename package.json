@@ -2,10 +2,14 @@
   "name": "caffeinated",
   "displayName": "Caffeinated",
   "description": "Semantic, keyword, and fuzzy code search powered by local embeddings and vector similarity",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "agiangrant",
+  "repository": "https://github.com/agiangrant/caffeinated",
+  "homepage": "https://github.com/agiangrant/caffeinated",
+  "bugs": "https://github.com/agiangrant/caffeinated/issues",
+  "license": "MIT",
   "engines": {
-    "vscode": "^1.85.0"
+    "vscode": "^1.95.0"
   },
   "icon": "icon.png",
   "categories": [
@@ -244,12 +248,9 @@
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js",
     "package": "vsce package",
-    "clean": "rm -rf out",
-    "rebuild": "electron-rebuild -f -w better-sqlite3"
+    "clean": "rm -rf out"
   },
   "devDependencies": {
-    "@electron/rebuild": "^4.0.1",
-    "@types/better-sqlite3": "^7.6.11",
     "@types/glob": "^8.1.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "^22.x",
@@ -263,7 +264,7 @@
   },
   "dependencies": {
     "axios": "^1.7.7",
-    "better-sqlite3": "^11.7.0",
-    "minimatch": "^10.0.1"
+    "minimatch": "^10.0.1",
+    "sql.js-fts5": "^1.4.0"
   }
 }

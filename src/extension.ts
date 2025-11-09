@@ -233,9 +233,6 @@ async function initializeServices(context: vscode.ExtensionContext): Promise<voi
     }
   }
 
-  const dimensions = embeddingService.getDimensions();
-  vectorDatabase.setDimensions(dimensions);
-
   contextGenerationService = new ContextGenerationService();
 
   if (contextGenerationService.isEnabled()) {

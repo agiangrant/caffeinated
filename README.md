@@ -1,6 +1,6 @@
-# Caffeinated - Semantic Code Search
+# Caffeinated - Code Search
 
-Caffeinated is a VSCodium/VSCode extension that provides semantic code search powered by local embeddings and vector similarity. Search your codebase using natural language queries and find code based on meaning, not just keywords.
+Caffeinated is a VSCodium/VSCode extension that provides semantic, keyword, and fuzzy code search powered by local embeddings and vector similarity. Search your codebase using natural language queries and find code based on meaning, not just keywords.
 
 ## Features
 
